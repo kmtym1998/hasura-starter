@@ -25,7 +25,7 @@
 #   6. hasura migrate apply
 $ make init
 
-# ターミナルの別タブで Hasura Console を起動
+# Hasura Console を起動
 $ make console
 ```
 
