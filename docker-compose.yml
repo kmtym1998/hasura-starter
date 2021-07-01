@@ -16,6 +16,7 @@ services:
       - "8080:8080"
     depends_on:
       - "db"
+    restart: on-failure:10
     environment:
       HASURA_GRAPHQL_DATABASE_URL: postgres://hasura:secret@db:5432/postgres
       # `make console` により起動する管理画面からのみ操作を行うため、下記は false に

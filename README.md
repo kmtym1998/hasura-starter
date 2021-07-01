@@ -1,3 +1,14 @@
+# これはなに
+
+- Hasura と PostgreSQL のローカル開発環境を提供するためのスターター
+- `make init` コマンドにより以下を提供します
+  - Hasura CLI
+  - Hasura Server
+  - PostgreSQL
+    - dbname: postgres
+    - username: hasura
+    - password: secret
+
 # Requirement
 
 - docker
@@ -48,6 +59,6 @@ $ make reset
   - `hasura migrate apply` が正常に完了すること
   - `hasura metadata apply` が正常に完了すること
 
-# デプロイについて
+# TODO
 
-- TODO: master ブランチにマージされたらデプロイできるようにする
+- csv ファイルで Seed データを投入できるようにする
