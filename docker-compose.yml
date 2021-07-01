@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:13
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: hasura
+      POSTGRES_PASSWORD: secret
+  hasura:
+    image: hasura/graphql-engine:v2.0.1.cli-migrations-v3
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "db"
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://hasura:secret@db:5432/postgres
+      # `make console` により起動する管理画面からのみ操作を行うため、下記は false に
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "false"
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+volumes:
+  db_data:
