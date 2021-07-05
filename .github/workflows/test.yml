@@ -35,10 +35,10 @@
 #           until curl -s -o /dev/null http://127.0.0.1:8080/healthz; do sleep 0.5; done
 
 #       - name: Test metadata apply
-#         run: npx hasura-cli metadata apply
+#         run: npx hasura-cli metadata apply --skip-update-check
 
 #       - name: Test migration up
-#         run: npx hasura-cli migrate status --database-name default
+#         run: npx hasura-cli migrate apply --database-name default --skip-update-check
 
 #       - name: Test migration down
-#         run: npx hasura-cli migrate apply --down -1 --database-name default
+#         run: npx hasura-cli migrate apply --down -1 --database-name default --skip-update-check
