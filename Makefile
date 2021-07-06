@@ -37,6 +37,7 @@ apply: ## マイグレーションを適用する
 	@until curl -s -o /dev/null http://127.0.0.1:8080/healthz; do sleep 1; done
 	hasura metadata apply
 	hasura migrate apply --database-name default
+	hasura metadata reload
 
 .PHONY: reset
 reset: ## DB を再構築 -> マイグレーションを適用
