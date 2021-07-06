@@ -34,7 +34,7 @@ create: ## DB を構築する
 .PHONY: apply
 apply: ## マイグレーションを適用する
 	@docker compose up -d
-	@until curl -s -o /dev/null http://127.0.0.1:8080/healthz; do sleep 1; done
+	@until curl -s -o /dev/null http://127.0.0.1:8081/healthz; do sleep 1; done
 	hasura metadata apply
 	hasura migrate apply --database-name default
 	hasura metadata reload
