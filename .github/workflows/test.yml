@@ -16,7 +16,7 @@
 #     name: Test
 #     runs-on: ubuntu-latest
 #     env:
-#       HASURA_GRAPHQL_ENDPOINT: http://127.0.0.1:8080
+#       HASURA_GRAPHQL_ENDPOINT: http://127.0.0.1:8081
 #     steps:
 #       - uses: actions/checkout@v2
 
@@ -32,7 +32,7 @@
 #         run: |
 #           docker-compose up -d --build
 #           echo 'waiting for hasura server up...'
-#           until curl -s -o /dev/null http://127.0.0.1:8080/healthz; do sleep 0.5; done
+#           until curl -s -o /dev/null http://127.0.0.1:8081/healthz; do sleep 0.5; done
 
 #       - name: Test metadata apply
 #         run: npx hasura-cli metadata apply --skip-update-check
