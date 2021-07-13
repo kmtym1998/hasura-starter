@@ -1,35 +1,44 @@
-# hasura cloudにデプロイする
-name: deploy-test
+name: Apply
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - 'migrations/**'
       - 'metadata/**'
       - 'seeds/**'
-      - 'README.md' # github actions デバッグのために入れているだけ
 jobs:
-  test:
-    name: Test
+  apply:
+    name: Apply
     runs-on: ubuntu-latest
-    env:
-      HASURA_GRAPHQL_ENDPOINT: ${{secrets.HASURA_GRAPHQL_ENDPOINT}}
-      HASURA_GRAPHQL_ADMIN_SECRET: ${{secrets.HASURA_GRAPHQL_ADMIN_SECRET}}
-      HASURA_GRAPHQL_DATABASE_URL: ${{secrets.HASURA_GRAPHQL_DATABASE_URL}}
     steps:
+      # 事前準備
       - uses: actions/checkout@v2
 
       - uses: actions/setup-node@v1
         with:
           node-version: 16
 
-      - name: Install hasura CLI
-        # npx だと指定のバージョンを使えないので hasura-cli 側で使いたいバージョンに直接アップデートする
-        run: npx hasura-cli update-cli --version v2.0.1
+      # npx だと指定のバージョンを使えないので hasura-cli 側で使いたいバージョンに直接アップデートする
+      - run: npx hasura-cli update-cli --version v2.0.1
 
-      - name: Apply migration
-        run: npx hasura-cli migrate apply --skip-update-check --database-name default
+      # デプロイ
+      - run: npx hasura-cli metadata apply --skip-update-check
+        env:
+          HASURA_GRAPHQL_ENDPOINT: ${{ secrets.HASURA_GRAPHQL_ENDPOINT }}
+          HASURA_GRAPHQL_ADMIN_SECRET: ${{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}
 
-      - name: Apply metadata
-        run: npx hasura-cli metadata apply --skip-update-check
+      - run: npx hasura-cli migrate apply --database-name default --skip-update-check
+        env:
+          HASURA_GRAPHQL_ENDPOINT: ${{ secrets.HASURA_GRAPHQL_ENDPOINT }}
+          HASURA_GRAPHQL_ADMIN_SECRET: ${{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}
+
+      - run: npx hasura-cli metadata reload --skip-update-check
+        env:
+          HASURA_GRAPHQL_ENDPOINT: ${{ secrets.HASURA_GRAPHQL_ENDPOINT }}
+          HASURA_GRAPHQL_ADMIN_SECRET: ${{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}
+
+      - run: npx hasura-cli seed apply --database-name default --skip-update-check
+        env:
+          HASURA_GRAPHQL_ENDPOINT: ${{ secrets.HASURA_GRAPHQL_ENDPOINT }}
+          HASURA_GRAPHQL_ADMIN_SECRET: ${{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}
