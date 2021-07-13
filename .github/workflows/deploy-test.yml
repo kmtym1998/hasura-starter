@@ -2,7 +2,7 @@ name: Apply
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - 'migrations/**'
       - 'metadata/**'
