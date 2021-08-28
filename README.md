@@ -24,9 +24,6 @@
 #   5. hasura metadata apply
 #   6. hasura migrate apply
 $ make init
-
-# Hasura Console を起動
-$ make console
 ```
 
 # Usage
@@ -56,8 +53,8 @@ $ make reset
 # CI について
 
 - GitHub Actions で下記をテスト (詳細は `.github/workflows/test.yml` を参照)
-  - `hasura migrate apply` が正常に完了すること
   - `hasura metadata apply` が正常に完了すること
+  - `hasura migrate apply` が正常に完了すること
 
 # TODO
 
