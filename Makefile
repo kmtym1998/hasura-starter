@@ -18,7 +18,7 @@ upf: ## フォアグラウンドで起動
 
 .PHONY: console
 console:
-	@hasura console
+	@hasura console --admin-secret secret
 
 .PHONY: drop
 drop: ## DB を破棄する
@@ -35,9 +35,9 @@ create: ## DB を構築する
 apply: ## マイグレーションを適用する
 	@docker compose up -d
 	@until curl -s -o /dev/null http://127.0.0.1:8080/healthz; do sleep 1; done
-	hasura metadata apply
-	hasura migrate apply --database-name default
-	hasura metadata reload
+	hasura metadata apply  --admin-secret secret
+	hasura migrate apply --database-name default --admin-secret secret
+	hasura metadata reload --admin-secret secret
 
 .PHONY: reset
 reset: ## DB を再構築 -> マイグレーションを適用

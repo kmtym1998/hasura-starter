@@ -56,6 +56,21 @@ $ make reset
   - `hasura metadata apply` が正常に完了すること
   - `hasura migrate apply` が正常に完了すること
 
-# TODO
+# M1 Mac の場合
 
-- csv ファイルで Seed データを投入できるようにする
+- hasura の イメージ (`hasura/graphql-engine:v2.0.10.cli-migrations-v3`) が使えない
+- 代わりのイメージは[こちら](https://github.com/melehin/graphql-engine-arm64)
+- `docker-compose.override.yaml` を作成して上書きする
+
+```
+$ touch docker-compose.override.yaml
+```
+
+- 例:
+
+```yaml
+version: '3.8'
+services:
+  hasura:
+    image: fedormelexin/graphql-engine-arm64:v2.0.10.cli-migrations-v3
+```
